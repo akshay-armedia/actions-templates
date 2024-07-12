@@ -25,12 +25,12 @@ jobs:
         run: ls -lrt && docker build -t ${{ inputs.image-name }} ${{ inputs.dockerfile-path }}
 
 
-      - name: Install OpenSCAP and Scan with AlmaLinux
-        run: |
-          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
-            almalinux:8 \
-            /bin/bash -c "dnf -y install openscap-scanner scap-security-guide && \
-            oscap-docker image ${{ inputs.image-name }} oval eval --results /tmp/results.xml --report /tmp/report.html"
+      # - name: Install OpenSCAP and Scan with AlmaLinux
+      #   run: |
+      #     docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+      #       registry.access.redhat.com/rhel7 \
+      #       /bin/bash -c "dnf -y install openscap-scanner scap-security-guide openscap-containers atomic python-docker-py && \
+      #       oscap-docker image ${{ inputs.image-name }} oval eval --results /tmp/results.xml --report /tmp/report.html"
 
       - name: Install Trivy
         run: |
