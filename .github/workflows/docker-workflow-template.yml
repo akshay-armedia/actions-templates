@@ -42,16 +42,11 @@ jobs:
 
       - name: Install OpenSCAP
         run: sudo apt-get update && sudo apt-get install -y libopenscap8 
-      - name: Install OpenSCAP and SCAP Content
-        run: |
-          git clone https://github.com/ComplianceAsCode/content.git
-          cd content
-          cmake .
-          make -j4
+
 
       - name: Scan Docker image with OpenSCAP
         run: |
-          oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_pci-dss --results-arf results.xml --report report.html content/build/ssg-sle12-ds.xml ${{ inputs.image-name }}.tar
+          oscap xccdf eval --profile xccdf_mil.disa.stig_profile_MAC-2_Sensitive --results-arf results.xml --report report.html U_RHEL_8_V1R8_STIG_SCAP_1-2_Benchmark_ARMEDIA.xml ${{ inputs.image-name }}.tar
 
       - name: Upload OpenSCAP scan results
         uses: actions/upload-artifact@v3
