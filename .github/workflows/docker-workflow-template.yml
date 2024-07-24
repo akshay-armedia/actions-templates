@@ -30,18 +30,18 @@ jobs:
       - name: Build Docker image
         run: ls -lrt && docker build -t ${{ inputs.image-name }} ${{ inputs.dockerfile-path }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: ${{ inputs.dockerfile-path }}
-          #push: true
-          tags: ${{ inputs.image-name }}:latest
+      # - name: Build and push Docker image
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: ${{ inputs.dockerfile-path }}
+      #     #push: true
+      #     tags: ${{ inputs.image-name }}:latest
 
       - name: Save Docker image to file
         run: docker save ${{ inputs.image-name }}:latest -o ${{ inputs.image-name }}.tar
 
       - name: Install OpenSCAP
-        run: sudo apt-get update && sudo apt-get install -y libopenscap8 openscap-utils
+        run: sudo apt-get update && sudo apt-get install -y libopenscap8
 
       - name: Scan Docker image with OpenSCAP
         run: |
