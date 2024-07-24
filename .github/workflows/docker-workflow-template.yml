@@ -41,7 +41,7 @@ jobs:
         run: docker save ${{ inputs.image-name }}:latest -o ${{ inputs.image-name }}.tar
 
       - name: Install OpenSCAP
-        run: sudo apt-get update && sudo apt-get install -y libopenscap8 ssg-base ssg-debderived ssg-debian ssg-nondebian ssg-applications
+        run: sudo apt-get update && sudo apt-get install -y libopenscap8  && apt install -y ssg-base ssg-debderived ssg-debian ssg-nondebian ssg-applications
 
       - name: Scan Docker image with OpenSCAP
         run: |
