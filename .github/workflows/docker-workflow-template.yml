@@ -42,17 +42,15 @@ jobs:
           push: true
           tags: ${{ inputs.image-name }}:latest
 
-      - name: Install Trivy
-        run: |
-          sudo apt-get install -y wget
-          wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.deb
-          sudo dpkg -i trivy_0.53.0_Linux-64bit.deb
-
       - name: Scan Docker image with Trivy
-        run: trivy image ${{ inputs.image-name }}
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ inputs.image-name }}:latest
+          format: 'html'
+          output: 'trivy-report.html'
 
-      - name: Upload Trivy scan results
-        uses: actions/upload-artifact@v3
+      - name: Upload Trivy report as artifact
+        uses: actions/upload-artifact@v2
         with:
           name: trivy-report
           path: trivy-report.html
