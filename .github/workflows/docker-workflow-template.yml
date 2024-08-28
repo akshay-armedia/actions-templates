@@ -54,10 +54,9 @@ jobs:
       - name: Build container image
         run: podman build -t ${{ inputs.image-name }}:latest -f Dockerfile .
 
-      
       - name: Scan Docker image with OpenSCAP
         run: |
-          oscap-podman ${{ inputs.image-name }}:latest xccdf eval --report report.html --profile xccdf_mil.disa.stig_profile_MAC-2_Sensitive      /opt/actions-runner/benchmark.xml
+          oscap-podman ${{ inputs.image-name }}:latest xccdf eval --report report.html --profile xccdf_org.ssgproject.content_profile_stig      /opt/actions-runner/benchmark.xml
 
       - name: Upload OpenSCAP scan results
         uses: actions/upload-artifact@v3
@@ -71,11 +70,11 @@ jobs:
       #     wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.deb
       #     sudo dpkg -i trivy_0.53.0_Linux-64bit.deb
 
-      # - name: Scan Docker image with Trivy
-      #   run: trivy image ${{ inputs.image-name }}
+      - name: Scan Docker image with Trivy
+        run: trivy image ${{ inputs.image-name }}
 
-      # - name: Upload Trivy scan results
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: trivy-report
-      #     path: trivy-report.html
+      - name: Upload Trivy scan results
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-report
+          path: trivy-report.html
